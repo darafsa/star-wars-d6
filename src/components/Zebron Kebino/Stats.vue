@@ -1,5 +1,14 @@
 <template>
 	<div class="stats--container">
+		<div class="dicer">
+			<span class="title">Nicer Dicer</span>
+			<div class="generator">
+				<input class="dice" id="dice" name="dice" type="number" v-model="generate.dice"  placeholder="1" @keyup.enter="generateRoll()" min="1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">D+
+				<input class="pips" id="pips" name="pips" type="number" v-model="generate.pips" placeholder="0" @keyup.enter="generateRoll()" min="0" max="2" oninput="this.value = this.value.replace(/[^0-2.]/g, '').replace(/(\..*)\./g, '$1');">
+				<input class="comment" id="comment" name="comment" v-model="generate.comment" placeholder="Reason" @keyup.enter="generateRoll()">
+				<button class="generate" @click="generateRoll()">Generate</button>
+			</div>
+		</div>
 		<div class="stats" v-for="(stat, index) in stats" :key="index">
 			<div class="flex-item">
 				<div class="name main">{{ getName(stat) }}</div>
@@ -27,9 +36,35 @@
 
 <script>
 import { stats } from "@/assets/zebron_kebino.js";
+import { reactive } from 'vue';
 
 export default {
 	setup () {
+		const generate = reactive({
+			dice: "",
+			pips: "",
+			comment: ""
+		})
+
+		function generateRoll() {
+			const comment = generate.comment;
+			var dice = Number(generate.dice);
+			var pips = Number(generate.pips);
+
+			if (dice > 0) dice -= 1;
+
+			var str = "!roll ";
+			if (dice > 0) str += `${dice}d6+`;
+			str += `1d6ie6#PIPS# !${comment} (${dice + 1}D+${pips})`;
+
+			str =
+				pips > 0
+					? str.replace("#PIPS#", `+${pips}`)
+					: str.replace("#PIPS#", "");
+
+			copyToClipboard(str)
+		}
+		
 		function getDice(stat, skill = {}) {
 			const diceStat = stat.dice ? stat.dice : 0;
 			const pipsStat = stat.pips ? stat.pips : 0;
@@ -50,13 +85,17 @@ export default {
 		}
 
 		const copyRoll = (stat, skill) => {
+			copyToClipboard(getRollCmd(stat, skill));
+		};
+
+		function copyToClipboard(str) {
 			const el = document.createElement("textarea");
-			el.value = getRollCmd(stat, skill);
+			el.value = str
 			document.body.appendChild(el);
 			el.select();
 			document.execCommand("copy");
 			document.body.removeChild(el);
-		};
+		}
 
 		function getRollCmd(stat, skill = {}) {
 			const diceStat = stat.dice ? stat.dice : 0;
@@ -88,6 +127,8 @@ export default {
 
 		return {
 			stats,
+			generate,
+			generateRoll,
 			getDice,
 			getSuffix,
 			getName,
@@ -105,6 +146,44 @@ export default {
 	width: 100%;
 	border: 1px solid black;
 	padding: 1.5rem 0 2.5rem 0;
+
+	.dicer {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 2rem;
+
+		.title {
+			width: 100%;
+			font-weight: bold;
+			font-size: 1.2rem;
+			margin-bottom: .5rem;
+		}
+
+		.generator {
+			border: 1px solid rgb(170, 170, 170);
+			padding: .5rem;
+			border-radius: 10px;
+
+			.dice, .pips {
+				width: 1rem;
+				-webkit-appearance: none;
+				-moz-appearance: textfield;
+				margin: 0;
+			}
+
+			.comment {
+				margin-left: 1rem;
+				width: 7rem;
+			}
+
+			.generate {
+				margin-left: 2rem;
+			}
+		}
+	}
 
 	.stats {
 		display: flex;
