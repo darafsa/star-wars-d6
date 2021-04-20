@@ -17,7 +17,7 @@
 					>
 						<div
 							class="hover"
-							v-html="getDifficultyLevel(item.level)"
+							v-html="getDifficultyLevel(item)"
 						></div>
 					</li>
 				</ul>
@@ -64,14 +64,19 @@
 		<!-- Extra -->
 		<ul class="extra" v-if="getExtra()">
 			<li class="list-item" v-for="(item, index) in getExtra()" :key="index">
-				<i>{{ item }}</i>
+				{{ item }}
 			</li>
 		</ul>
+		<!-- Time to Use -->
+		<div class="timeToUse">
+			<span class="title">Time to Use: </span>
+			<span class="content">{{ getTimeToUse() }}</span>
+		</div>
 	</div>
 </template>
 
 <script>
-import { powers } from "@/assets/zebron_kebino.js";
+import { powers, data } from "@/assets/zebron_kebino.js";
 
 export default {
 	props: {
@@ -87,33 +92,37 @@ export default {
 			return [];
 		}
 
-		function getDifficultyLevel(level) {
+		function getDifficultyLevel(item) {
 			var levelTitle = "";
 			var levelHover = "";
-			switch (level) {
+			switch (item.level) {
 				case 1:
 					levelTitle = "Very Easy";
-					levelHover = "1-5 or 1D";
+					levelHover = item.hover ? item.hover : "1-5 or 1D";
 					break;
 				case 2:
 					levelTitle = "Easy";
-					levelHover = "6-10 or 2D";
+					levelHover = item.hover ? item.hover : "6-10 or 2D";
 					break;
 				case 3:
 					levelTitle = "Moderate";
-					levelHover = "11-15 or 3D-4D";
+					levelHover = item.hover ? item.hover : "11-15 or 3D-4D";
 					break;
 				case 4:
 					levelTitle = "Difficult";
-					levelHover = "16-20 or 5D-6D";
+					levelHover = item.hover ? item.hover : "16-20 or 5D-6D";
 					break;
 				case 5:
 					levelTitle = "Very Difficult";
-					levelHover = "21-30 or 7D-8D";
+					levelHover = item.hover ? item.hover : "21-30 or 7D-8D";
 					break;
 				case 6:
 					levelTitle = "Heroic";
-					levelHover = "31+ or 9D+";
+					levelHover = item.hover ? item.hover : "31+ or 9D+";
+					break;
+				default:
+					levelTitle = item.level;
+					levelHover = item.hover;
 					break;
 			}
 			return `<span title="${levelHover}">${levelTitle}</span>`;
@@ -125,20 +134,27 @@ export default {
 		}
 
 		function hasModifiers(power) {
-			if (getDifficulty(power).increased) return true;
+			if (getDifficulty(power).modifiers) return true;
 			return false;
 		}
 
 		function hasExtra() {
-			if (props.skill.difficulty.extra) return true;
+			if (props.skill.extra) return true;
 			return false;
 		}
 
 		function getExtra() {
-			if (props.skill.difficulty != null) {
-				return props.skill.difficulty.extra;
+			if (props.skill != null) {
+				return props.skill.extra;
 			}
 			return [];
+		}
+
+		function getTimeToUse() {
+			if (props.skill.timeToUse != null) {
+				return props.skill.timeToUse;
+			}
+			return data.time.default;
 		}
 
 		function copyRoll(power) {
@@ -177,11 +193,13 @@ export default {
 
 		return {
 			powers,
+			data,
 			getDifficulty,
 			getDifficultyLevel,
 			getDice,
 			copyRoll,
 			getExtra,
+			getTimeToUse,
 			hasIncreasedDifficulty,
 			hasModifiers,
 			hasExtra,
@@ -196,6 +214,8 @@ export default {
 		width: 100%;
 
 		.title {
+			margin-bottom: 1rem;
+
 			.name {
 				width: 100%;
 				font-size: 1.2rem;
@@ -226,6 +246,7 @@ export default {
 			.modifiers {
 				list-style: none;
 				padding: 0 1rem 0 1.5rem;
+				margin-top: 0;
 
 				.list-item {
 					padding: 0.2rem 0 0.2rem 0;
@@ -248,6 +269,13 @@ export default {
 		list-style: none;
 		padding: 0;
 		font-style: italic;
+		margin-top: 0;
+	}
+
+	.timeToUse {
+		.title {
+			font-weight: bold;
+		}
 	}
 }
 </style>

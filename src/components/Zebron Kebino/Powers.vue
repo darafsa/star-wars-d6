@@ -1,7 +1,7 @@
 <template>
 	<div class="powers--container">
 		<ul class="list">
-			<li class="list-item" v-for="(skill, index) in powers.skills" :key="index" @click="data.currentSkill = skill">
+			<li class="list-item" :class="{ hover: skill.type != 'label', label: skill.type == 'label' }" v-for="(skill, index) in powers.skills" :key="index" @click="showSkill(skill)">
 				{{ skill.name }}
 			</li>
 		</ul>
@@ -30,10 +30,16 @@ export default {
 			})
 			return str;
 		}
+
+		function showSkill(skill) {
+			if(skill.type != 'label')
+				data.currentSkill = skill;
+		}
 		return {
 			data,
 			powers,
-			getPowers
+			getPowers,
+			showSkill
 		};
 	},
 };
@@ -68,13 +74,21 @@ export default {
 
 		.list-item {
 			width: 100%;
-			cursor: pointer;
 			padding: 1rem;
+		}
+
+		.hover {
+			cursor: pointer;
 			transition: background 0.2s ease;
-			
+
 			&:hover {
 				background: rgb(150, 150, 150);
 			}
+		}
+
+		.label {
+			font-weight: bold;
+			font-size: 1.2rem;
 		}
 	}
 

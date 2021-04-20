@@ -29,6 +29,8 @@ export default {
 <style lang="scss" scoped>
 .background--container {
 	width: 80%;
+	border: 1px solid black;
+	padding: 1.5rem 5% 1.5rem 5%;
 
 	.member {
 		margin-bottom: 2rem;

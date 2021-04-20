@@ -1,6 +1,9 @@
 <template>
 	<div class="skill--container">
-		<h1 class="title">{{ skill.name }}</h1>
+		<div class="title">
+			<h1 class="text">{{ skill.name }}</h1>
+			<span class="required" v-if="skill.required">{{ getRequired() }}</span>
+		</div>
 		<div class="content">
 			<div class="effect">
 				<ul class="short list">
@@ -11,7 +14,9 @@
 					>
 						{{ typeof item === "string" ? item : item[0] }}
 						<ul v-if="(typeof item !== 'string')">
-							<li v-for="i in item.length-1" :key="i">{{ item[i] }}</li>
+							<li v-for="i in item.length - 1" :key="i">
+								{{ item[i] }}
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -19,7 +24,7 @@
 				<p class="long" v-html="getEffectComplete()"></p>
 				<div class="example" v-if="skill.example">
 					<h3>Example</h3>
-					<p v-html="skill.example.long"></p>
+					<p class="content" v-html="skill.example.long"></p>
 				</div>
 			</div>
 			<div class="details">
@@ -41,7 +46,17 @@ export default {
 		},
 	},
 	setup(props) {
-		const test = "Test";
+		function getRequired() {
+			var required = props.skill.required;
+			var result = "Required: ";
+			if (required != null) {
+				result += required[0];
+				for (var i = 1; i < required.length; i++) {
+					result += `, ${required[i]}`;
+				}
+			}
+			return result;
+		}
 
 		function getEffectShort() {
 			if (props.skill.effect != null) {
@@ -61,7 +76,7 @@ export default {
 		}
 
 		return {
-			test,
+			getRequired,
 			powers,
 			getEffectShort,
 			getEffectComplete,
@@ -74,11 +89,24 @@ export default {
 .skill--container {
 	flex-direction: column;
 	align-items: flex-start;
-	padding-left: 3rem;
+	padding: 1rem 3rem 2.5rem 3rem;
 
 	.title {
-		width: 100%;
+		margin-bottom: 1rem; 
 		text-align: left;
+
+		.text {
+			width: 100%;
+			text-align: left;
+			margin-bottom: 0;
+		}
+		
+		.required {
+			font-style: italic;
+			font-size: .8rem;
+			margin-left: 0;
+			padding-left: 1rem;
+		}
 	}
 
 	.content {
@@ -101,10 +129,14 @@ export default {
 
 			.long {
 				font-size: 1.1rem;
+				margin-bottom: 0;
 			}
 
 			.example {
-				font-size: 1.1rem;
+				.content {
+					font-size: 1.1rem;
+					margin-bottom: 0;
+				}
 			}
 		}
 

@@ -100,8 +100,11 @@ export default {
 <style lang="scss" scoped>
 .stats--container {
 	display: flex;
-	flex-direction: row;
-	align-items: flex-start;
+	justify-content: center;
+	flex-wrap: wrap;
+	width: 100%;
+	border: 1px solid black;
+	padding: 1.5rem 0 2.5rem 0;
 
 	.stats {
 		display: flex;
