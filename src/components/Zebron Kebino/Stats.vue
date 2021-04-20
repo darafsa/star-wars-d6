@@ -9,12 +9,12 @@
 			</div>
 			<div class="skills">
 				<ul class="list">
-					<li v-for="(skill, index) in stat.skills" :key="index">
+					<li class="list-item" v-for="(skill, index) in stat.skills" :key="index">
 						<div class="name">{{ getName(skill) }}</div>
 					</li>
 				</ul>
 				<ul class="list">
-					<li v-for="(skill, index) in stat.skills" :key="index">
+					<li class="list-item" v-for="(skill, index) in stat.skills" :key="index">
 						<a class="copy" @click="copyRoll(stat, skill)">
 							{{ getDice(stat, skill) }}
 						</a>
@@ -145,6 +145,10 @@ export default {
 				margin-top: 0;
 				padding-left: 1rem;
 				width: max-content;
+
+				.list-item {
+					padding: 0.2rem 0 0.2rem 0;
+				}
 			}
 		}
 	}

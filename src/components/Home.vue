@@ -3,10 +3,12 @@
 		<h1>{{ data.name }}</h1>
 		<ul class="nav">
 			<a class="item" @click="showStats()">Stats</a>
+			<a class="item" @click="showPowers()">Powers</a>
 			<a class="item" @click="showBackground()">Background</a>
 		</ul>
 		<Stats class="content-item" v-show="data.stats" />
 		<Background class="content-item" v-show="data.background" />
+		<Powers class="content-item" v-show="data.powers"/>
 	</div>
 </template>
 
@@ -14,11 +16,13 @@
 import { reactive } from "vue";
 import Stats from "./Zebron Kebino/Stats";
 import Background from "./Zebron Kebino/Background";
+import Powers from "./Zebron Kebino/Powers";
 
 export default {
 	components: {
 		Stats,
-		Background
+		Background,
+		Powers,
 	},
 	setup() {
 		const data = reactive({
@@ -30,6 +34,14 @@ export default {
 		function showStats() {
 			data.stats = true;
 
+			data.powers = false;
+			data.background = false;
+		}
+
+		function showPowers() {
+			data.powers = true;
+
+			data.stats = false;
 			data.background = false;
 		}
 
@@ -37,11 +49,13 @@ export default {
 			data.background = true;
 
 			data.stats = false;
+			data.powers = false;
 		}
 
 		return {
 			data,
 			showStats,
+			showPowers,
 			showBackground,
 		};
 	},
