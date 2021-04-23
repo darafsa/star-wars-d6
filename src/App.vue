@@ -1,14 +1,14 @@
 <template>
-	<Home />
+	<Zebron />
 </template>
 
 <script>
-import Home from "@/components/Home";
+import Zebron from "@/components/Zebron";
 
 export default {
 	name: "App",
 	components: {
-		Home,
+		Zebron,
 	},
 };
 </script>
