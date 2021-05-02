@@ -13,7 +13,7 @@
 import { reactive } from 'vue';
 
 import { powers } from "@/assets/zebron_kebino.js";
-import Skill from "@/components/Zebron Kebino/Force Skill"
+import Skill from "./Force Skill"
 
 export default {
 	components: {

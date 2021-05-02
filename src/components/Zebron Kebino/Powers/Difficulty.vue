@@ -9,50 +9,40 @@
 			</div>
 			<div class="details--container" v-if="skill.difficulty[power]">
 				<!-- Base Difficulty -->
-				<ul class="level">
+				<ul class="level--container">
 					<li
-						class="list-item"
+						class="level-item"
 						v-for="(item, index) in getDifficulty(power).level"
 						:key="index"
 					>
 						<div
-							class="hover"
+							class="level hover"
 							v-html="getDifficultyLevel(item)"
 						></div>
-					</li>
-				</ul>
-				<ul class="text">
-					<li
-						class="list-item"
-						v-for="(item, index) in getDifficulty(power).level"
-						:key="index"
-					>
-						{{ item.text }}
+						<div class="text">
+							{{ item.text }}
+						</div>
 					</li>
 				</ul>
 				<!-- Increased Difficulty -->
-				<ul class="add" v-if="hasIncreasedDifficulty(power)">
+				<ul class="add--container" v-if="hasIncreasedDifficulty(power)">
 					<li
-						class="list-item"
+						class="add-item"
 						v-for="(item, index) in getDifficulty(power).increased"
 						:key="index"
 					>
-						{{ item.add }}
-					</li>
-				</ul>
-				<ul class="text" v-if="hasIncreasedDifficulty(power)">
-					<li
-						class="list-item"
-						v-for="(item, index) in getDifficulty(power).increased"
-						:key="index"
-					>
-						{{ item.text }}
+						<div class="level">
+							{{ item.add }}
+						</div>
+						<div class="text">
+							{{ item.text }}
+						</div>
 					</li>
 				</ul>
 				<!-- Modifiers -->
-				<ul class="modifiers" v-if="hasModifiers(power)">
+				<ul class="modifiers--container" v-if="hasModifiers(power)">
 					<li
-						class="list-item"
+						class="modifiers-item"
 						v-for="(item, index) in getDifficulty(power).modifiers"
 						:key="index"
 					>
@@ -237,30 +227,37 @@ export default {
 		}
 
 		.details--container {
-			display: inline-grid;
-			grid-template-columns: auto auto;
+			.level--container,
+			.add--container,
+			.modifiers--container {
+				margin: 0;
+				padding: 0;
+				margin-bottom: 1rem;
+				//list-style: none;
 
-			.level,
-			.text,
-			.add,
-			.modifiers {
-				list-style: none;
-				padding: 0 1rem 0 1.5rem;
-				margin-top: 0;
+				.level-item,
+				.add-item,
+				.modifiers-item {
+					display: flex;
+					width: 100%;
+					padding: 0.2rem 0 0.2rem 1.2rem;
 
-				.list-item {
-					padding: 0.2rem 0 0.2rem 0;
+					.level {
+						width: 30%;
+					}
 
 					.hover {
 						cursor: pointer;
 					}
-				}
-			}
 
-			.modifiers {
-				grid-column-start: 1;
-				grid-column-end: 3;
-				font-style: italic;
+					.text {
+						width: 70%;
+					}
+				}
+
+				.modifiers-item {
+					font-style: italic;
+				}
 			}
 		}
 	}

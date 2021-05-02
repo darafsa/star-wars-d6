@@ -36,7 +36,7 @@
 
 <script>
 import { powers } from "@/assets/zebron_kebino.js";
-import Difficulty from "@/components/Zebron Kebino/Difficulty.vue";
+import Difficulty from "./Difficulty.vue";
 
 export default {
 	components: { Difficulty },

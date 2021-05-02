@@ -1,37 +1,46 @@
+export const points = {
+	force: 5,
+	darkside: 0,
+	character: 84,
+	spent: 41,
+}
+
 export const stats = [
 	{
 		name: 'Dexterity',
 		dice: 3,
 		pips: 0,
-		skills: [
-			{
+		skills: {
+			Lightsaber: {
 				name: 'Lightsaber',
 				dice: 1,
 				pips: 0,
 			},
-			{
+			'Lightsaber (s)': {
 				name: 'Lightsaber',
+				root: 'Lightsaber',
 				spez: true,
-				dice: 2,
+				dice: 3,
 				pips: 0,
 			},
-			{
+			Acrobatics: {
 				name: 'Acrobatics',
 				dice: 1,
 				pips: 0,
 			},
-			{
+			Dodge: {
 				name: 'Dodge',
 				dice: 2,
 				pips: 0,
 			},
-			{
+			Sprinting: {
 				name: 'Sprinting',
+				root: 'Running',
 				spez: true,
 				dice: 1,
 				pips: 0,
 			},
-		],
+		},
 	},
 	{
 		name: 'Perception',
@@ -96,11 +105,11 @@ export const stats = [
 
 export const data = {
 	modifiers: {
-		inSight: 'Target must be in sight of the Jedi',
 		proximity: 'Modified by Proximity',
 		relationship: 'Modified by Relationship',
 	},
 	extra: {
+		inSight: 'Target must be in sight of the Jedi',
 		keptUp: 'Power can be kept up',
 		ignorePain:
 			'Character can ignore pain of injuries for a long period of time',
@@ -118,7 +127,7 @@ export const powers = {
 	stats: {
 		control: {
 			name: 'Control',
-			dice: 2,
+			dice: 3,
 			pips: 2,
 		},
 		sense: {
@@ -128,7 +137,7 @@ export const powers = {
 		},
 		alter: {
 			name: 'Alter',
-			dice: 2,
+			dice: 3,
 			pips: 0,
 		},
 	},
@@ -140,7 +149,7 @@ export const powers = {
 		{
 			name: 'Telekinesis',
 			powers: ['alter'],
-			extra: [data.extra.keptUp],
+			extra: [data.extra.inSight, data.extra.keptUp],
 			difficulty: {
 				alter: {
 					level: [
@@ -187,7 +196,7 @@ export const powers = {
 							text: 'for complex maneuvers',
 						},
 					],
-					modifiers: [data.modifiers.inSight, data.modifiers.proximity],
+					modifiers: [data.modifiers.proximity],
 				},
 			},
 			effect: {
@@ -196,15 +205,14 @@ export const powers = {
 					'possible to lift serveral objects simultaneously - each object requires new Telekinesis roll',
 					'levitate oneself or others is possible',
 					'can be used as primitive space drive in emergencys',
-					'when used against will: add his/her Perception or Control roll to diculty',
+					'when used against will: add his/her Perception or Control roll to difficulty',
 					'levitated objects can be used to attack others - automatically gives a Dark Side Point',
 				],
 				long: `By using this <click>power</click>, a Jedi may levitate objects with mental power. If used successfully, the object moves as the Jedi desires.<br>
 				A Jedi can lift several objects simultaneously, but each additional object requires the Jedi to make a new telekinesis roll.<br>
 				This power can be used to levitate oneself or others. It can be used as a primitive space drive in emergencies. When levitating against someone's will, the target will resist by adding his or her Perception or control roll to the difficulty number.<br>
 				Levitated objects can be used to attack other characters, but this automatically gives the Jedi a Dark Side Point. Such objects do up to 1D damage if under one kilogram, 2D if one to ten kilos, 4D if 11to100 kilos, 3D Speeder-scale if one to ten tons, 5D Starfighter-scale if 11 to 100 tons.<br>
-				Such attacks require an additional control roll by the Jedi, which would be this hit roll against the target's dodge. If the character doesn't dodge the attack, the difficulty if Easy.
-				`,
+				Such attacks require an additional control roll by the Jedi, which would be this hit roll against the target's dodge. If the character doesn't dodge the attack, the difficulty if Easy.`,
 			},
 		},
 		{
@@ -260,6 +268,51 @@ export const powers = {
 				Ana's attacker is using a blaster pistol that causes 4D damage.<br>
 				First Ana makes her parry roll with her lightsaber: her parry roll of 18 is higher than the attacker's blaster roll of 13, so Ana parries the bolt.<br>
 				Now, Ana tries to control the blaster bolt. Her target is 20 meters away – that's a Moderate difficulty for the blaster pistol. Ana rolls a 14 with her control – just barely good enough to hit. The blaster bolt bounces off Ana's lightsaber blade and hits another goon, causing 4D damage.`,
+			},
+		},
+		{
+			name: 'Force Push *',
+			powers: ['alter'],
+			source: 'Core Rulebook, page 86',
+			required: ['Concentration', 'Life Detection', 'Telekinesis'],
+			extra: [data.extra.inSight],
+			difficulty: {
+				alter: {
+					level: [
+						{
+							level: 'Target’s control or Strength roll',
+							hover: 'Looking for something?',
+						},
+					],
+					increased: [
+						{
+							add: '+3',
+							text: 'for every 5 meters away from target',
+						},
+					],
+				},
+			},
+			effect: {
+				short: [],
+				long: `With this power, a Jedi may use the Force to push several adjacent targets backwards, knocking them prone or banging them against a wall. Each target past the first incurs a -1D penalty on the Jedi using the power (ie, 1 target, no penalty; 2 targets, -1D penalty; 3 targets, -2D penalty; 4 targets, -3D penalty…). Each target makes either a control or Strength roll to resist, and the acting Jedi’s alter roll result is compared to each result in turn to determine the effects. A target that is knocked back into a wall or other solid object takes the listed damage. If a Jedi kills a living being as a result of this power he immediately receives a Dark Side Point; as such, he may roll less than his full alter score if he so chooses.
+				<div style="display: flex">
+					<ul style="list-style: none; text-align: center;">
+						<li><b><i>Alter Roll > Difficulty By</i></b></li>
+						<li>0-5</li>
+						<li>6-10</li>
+						<li>11-15</li>
+						<li>16-20</li>
+						<li>21+</li>
+					</ul>
+					<ul style="list-style: none; text-align: center;">
+						<li><b><i>Target pushed back/Collision damage</i></b></li>
+						<li>2 meters / 2D</li>
+						<li>3 meters / 3D</li>
+						<li>5 meters / 4D</li>
+						<li>10 meters / 5D</li>
+						<li>15 meters / 6D</li>
+					</ul>
+				</div>`,
 			},
 		},
 		{ type: 'label' },
@@ -320,13 +373,13 @@ export const powers = {
 				A Jedi can only increase one attribute at a time. If a character invokes the power to enhance a second attribute while the first attribute is still enhanced, then the first enhancement fades and the second attribute receives the increase.
 				<div style="display: flex">
 					<ul style="list-style: none; text-align: center;">
-						<li>Skill Roll > Difficulty By</li>
+						<li><b><i>Skill Roll > Difficulty By</i></b></li>
 						<li>0-13</li>
 						<li>14-25</li>
 						<li>26+</li>
 					</ul>
 					<ul style="list-style: none; text-align: center;">
-						<li>Attribute Duration/Increase</li>
+						<li><b><i>Attribute Duration/Increase</i></b></li>
 						<li>+1D / 3 rounds</li>
 						<li>+2D / 2 rounds</li>
 						<li>+3D / 1 round</li>
@@ -334,6 +387,83 @@ export const powers = {
 				</div>
 				`,
 			},
+		},
+		{
+			name: 'Force Jump * ',
+			powers: ['control', 'alter'],
+			requires: ['Enhance Attribute', 'Telekinesis'],
+			difficulty: {
+				control: {
+					level: [
+						{
+							level: '1-3',
+							hover: '',
+							text: 'Jumping Increase +1D',
+						},
+						{
+							level: '4-8',
+							hover: '',
+							text: 'Jumping Increase +2D',
+						},
+						{
+							level: '9-15',
+							hover: '=-6',
+							text: 'Jumping Increase +3D',
+						},
+						{
+							level: '16-25',
+							hover: '',
+							text: 'Jumping Increase +4D',
+						},
+						{
+							level: '26-37',
+							hover: 'Nothing to see here...',
+							text: 'Jumping Increase +5D',
+						},
+						{
+							level: '38+',
+							hover: '',
+							text: 'Jumping Increase +6D',
+						},
+					],
+				},
+				alter: {
+					level: [
+						{
+							level: 2
+						}
+					]
+				}
+			},
+			effect: {
+				long: `A Jedi uses this power to increase his jumping ability in order to perform impossibly high leaps. If both Force skill rolls are successful, the character uses his normal climbing/jumping skill to perform the jump, but he uses the special table below to determine difficulties. If the control roll exceeds the difficulty, the character gains an immediate bonus to his climbing/jumping roll. If the Jedi fails any Force skill roll, the power is not activated and the character is left to use his normal jumping ability (and there are certain situations where you can’t back out of a jump because your power failed). At the gamemaster’s discretion, a failed climbing/jumping roll might mean the Jedi fails to achieve the desired height or distance, fails to properly cushion his landing and suffers normal falling damage, or both. Multiple action penalties apply. The climbing/jumping roll is a third action in that round, whether the power is successful or not.<br>
+				<div style="display: flex">
+					<ul style="list-style: none; text-align: center;">
+						<li><b><i>Height Jumped</i></b></li>
+						<li>0 - 1 meter</li>
+						<li>1 - 2 meter</li>
+						<li>3 - 4 meter</li>
+						<li>5 - 8 meter</li>
+						<li>9 - 15 meter</li>
+						<li>16 - 20 meter</li>
+					</ul>
+					<ul style="list-style: none; text-align: center;">
+						<li><b><i>Jumping Difficulty</i></b></li>
+						<li>Very Easy</li>
+						<li>Easy</li>
+						<li>Moderate</li>
+						<li>Difficulty</li>
+						<li>Very Difficulty</li>
+						<li>Heroic</li>
+					</ul>
+				</div>
+				Add +5 to the difficulty for every additional 5 meters. If the character is simply jumping downwards, with no upwards movement, reduce jumping difficulty by one level. Add +1 to the difficulty per meter of horizontal distance jumped.
+				`,
+			},
+			example: {
+				long: `Ambelled Daru has a control skill of 5D, alter of 3D+2, and a climbing/jumping skill of 4D, and wants to perform a Force jump across a chasm to a ledge above. He rolls 1D+2 for alter (3D+2 subtracting –2D for multiple action penalties), and gets a 7, making his alter difficulty. Next he rolls his control of 3D, and gets a 11 (which exceeds the difficulty by 4). This adds +2D to his climbing/jumping roll, cancelling out the multiple action penalty.<br>
+				The ledge on which he wants to jump is 4 meters up and the chasm is 3 meters across, thus the difficulty is Moderate+3. Ambelled Daru rolls his 4D climbing/jumping (4D –2D +2D), and gets a 16, making the difficulty and using the Force to leap safely on top of the ledge.`
+			}
 		},
 		{ type: 'label' },
 		{
@@ -370,6 +500,38 @@ export const powers = {
 				short: [],
 				long: `An injured character who uses control pain can act as if he has not been wounded the next round after he uses the skill. The wound is not healed, but the character doesn’t suffer the penalties of being wounded: a wounded Jedi doesn’t loose 1D from all actions; an incapacitated character can still act normally, as can a mortally wounded character. This power can also be used to shrug off any stun results.<br>
 				However, the injury can still grow worse even if the character doesn’t feel the pain. For example, a character who’s been wounded twice and is wounded again would still become incapacitated. Mortally wounded users make the same rolls as other mortally wounded characters, even if they aren’t feeling any pain.`,
+			},
+		},
+		{
+			name: 'Remain Conscious *',
+			powers: ['control'],
+			required: ['Control Pain'],
+			difficulty: {
+				control: {
+					level: [
+						{
+							level: 2,
+							text: 'for stunned characters',
+						},
+						{
+							level: 3,
+							text: 'for incapacitated characters',
+						},
+						{
+							level: 4,
+							text: 'for mortally wounded characters',
+						},
+					],
+				},
+			},
+			effect: {
+				short: [],
+				long: `Remain conscious allows a Jedi to remain conscious even when he has suffered injuries which would knock him unconscious. In game terms, when a character with this power suffers this kind of injury, they lose all of their actions for the rest of the round, but they are still conscious (normal characters automatically pass out). On the next round, the character may attempt to activate the power – this must be the first action of that round; the Jedi cannot even dodge or parry.<br>
+				If the role is unsuccessful, the Jedi passes out. If successful, the Jedi can do any one other action declared for that round – often characters will attempt to control pain so that he will be able to remain conscious. Once this action is completed, the Jedi will lapse into unconsciousness, unless control pain or something else is done to keep the character conscious.`,
+			},
+			example: {
+				long: `Ana suffers several stuns and should be knocked unconscious ... but she has remain conscious. Ana loses her remaining actions for that round, but she is still awake.<br>
+				At the beginning of the next round, Ana’s player declares that she will try to activate remain conscious and control pain. The player makes the Moderate control roll to activate remain conscious, so Ana stays awake for the rest of the round. (If the roll had failed or Ana hadn’t activated remain conscious, she would have passed out at the beginning of the round.) Ana must now make a Very Easy control roll to activate control pain. If she succeeds, she may now act normally; if the roll fails, Ana is overwhelmed by the pain and slips into unconsciousness.`,
 			},
 		},
 		{
@@ -433,6 +595,27 @@ export const powers = {
 			name: 'Enhance Senses',
 		},
 		{
+			name: 'Merge Senses *',
+			powers: ['sense'],
+			timeToUse: data.time[3],
+			required: ['Magnify Senses'],
+			difficulty: {
+				sense: {
+					level: [
+						{
+							level: 3,
+						},
+					],
+					modifiers: [data.modifiers.proximity],
+				},
+			},
+			effect: {
+				short: [],
+				long: `This power allows a Force user to perceive things through the senses of another creature, one with animal intelligence or less. He can see through the eyes of the selected creature, enjoying the benefits of being bound by the restrictions of the creature’s vision. He can hear through the creature’s ears; smell was that creature smells; and physically feel whatever the creature is feeling. The Force user does not control the creature, but can make suggestions. The simpler or less threatening the request, the more likely it will be agreed to. If a suggestion goes against the nature of the creature or would put it in an obviously hazardous situation, the Force user must make a sense roll against the subject’s willpower. Failure means the suggestion is ignored.<br>
+				While the Force user’s senses are merged with a creature’s, the Force user’s body is motionless, its senses unable to function until, of course, the meld is broken. Releasing the target creature requires a Moderate roll. The link with the creature is also broken by the death of either the creature of the Force user. If the creature suffers damage or dies during a meld, the Force user suffers one-half the amount of damage.`,
+			},
+		},
+		{
 			name: 'Magnify Senses',
 			powers: ['sense'],
 			timeToUse: data.time[3],
@@ -476,31 +659,6 @@ export const powers = {
 			},
 		},
 		{
-			name: 'Danger Sense',
-			powers: ['sense'],
-			required: ['Life Detection'],
-			extra: [data.extra.keptUp],
-			difficulty: {
-				sense: {
-					level: [
-						{
-							level: 3,
-						},
-						{
-							level: "Attacker's Control roll",
-							hover: 'Alternative',
-						},
-					],
-				},
-			},
-			effect: {
-				short: [],
-				long: `Danger sense allows a Jedi to extend his senses around himself like protective sensors creating an early warning system for as long as the power remains in effect.<br>
-				When this power is used, the Jedi detects any attacks the round before they are made. This gives the Jedi a round to decide how to react to the danger.<br>
-				In game terms, if a character plans to attack the Jedi on the next round, she must declare her action the round before. Attacking characters with Force skills may roll their control skill to increase the difficulty of using this power.<br>`,
-			},
-		},
-		{
 			name: 'Life Detection',
 			powers: ['sense'],
 			extra: [data.extra.keptUp],
@@ -532,10 +690,130 @@ export const powers = {
 				Ana’s roll beats the third Gamorrean’s by 11 points, so she knows that this being is also not Force-sensitive and doesn’t have Force skills. However, Ana has met the creature before—she knows the third being is Draughckt, a Gamorrean she met a few years earlier on the planet Seltos.`,
 			},
 		},
+		{
+			name: 'Danger Sense',
+			powers: ['sense'],
+			required: ['Life Detection'],
+			extra: [data.extra.keptUp],
+			difficulty: {
+				sense: {
+					level: [
+						{
+							level: 3,
+						},
+						{
+							level: 'Attacker’s Control roll',
+							hover: 'Alternative',
+						},
+					],
+				},
+			},
+			effect: {
+				short: [],
+				long: `Danger sense allows a Jedi to extend his senses around himself like protective sensors creating an early warning system for as long as the power remains in effect.<br>
+				When this power is used, the Jedi detects any attacks the round before they are made. This gives the Jedi a round to decide how to react to the danger.<br>
+				In game terms, if a character plans to attack the Jedi on the next round, she must declare her action the round before. Attacking characters with Force skills may roll their control skill to increase the difficulty of using this power.<br>`,
+			},
+		},
+		{
+			name: 'Combat Sense *',
+			powers: ['sense'],
+			required: ['Danger Sense', 'Life Detection'],
+			difficulty: {
+				sense: {
+					level: [
+						{
+							level: 3,
+							text: 'for one opponent',
+						},
+					],
+					increased: [
+						{
+							add: '+3',
+							text:
+								'for each additional opponent the Jedi wishes to defend against',
+						},
+					],
+				},
+			},
+			effect: {
+				short: [],
+				long: `Combat sense allows a Jedi to focus on the battle at hand. Everything else becomes dulled and muted as the Jedi’s senses are all turned toward the combat occurring around him. All targets become mentally highlighted in the Jedi’s mind, enhancing his ability to attack and defend. In game terms, the Jedi gains important advantages.<br>
+				First, the Jedi may choose when he wishes to act that round—no initiative rolls are necessary while the power is in effect. If more than one Jedi is using the power, whoever rolled highest when invoking the power determines when he wishes to act.<br>
+				Second, the Jedi’s attack and defense rolls are increased by +2. Combat sense lasts for ten combat rounds and doesn’t count as a "skill use" for determining die code penalties.`,
+			},
+		},
 		{ type: 'label' },
 		{
 			type: 'label',
 			name: 'Communication',
+		},
+		{
+			name: 'Affect Mind *',
+			powers: ['control', 'sense', 'alter'],
+			difficulty: {
+				control: {
+					level: [
+						{
+							level: 1,
+							text: 'for perceptions',
+						},
+						{
+							level: 2,
+							text: 'for memories',
+						},
+						{
+							level: 3,
+							text: 'for conclusions',
+						},
+					],
+					modifiers: [data.modifiers.proximity],
+				},
+				sense: {
+					level: [
+						{
+							level: 'Target’s Control or Perception roll',
+							hover: 'Found ya!',
+						},
+					],
+				},
+				alter: {
+					level: [
+						{
+							level: 1,
+							text:
+								'for slight, momentary misperceptions, minor changes to distant memories, or if the character doesn’t care one way or another',
+						},
+						{
+							level: 2,
+							text:
+								'for brief visible phenomena, memories less than a year old, or minor emotions regarding a coming conclusion',
+						},
+						{
+							level: 3,
+							text:
+								'for short hallucinations, memories less than a day old, or if the target has strict orders about the conclusion',
+						},
+						{
+							level: 4,
+							text:
+								'slight disguise to facial features, hallucinations which can be sensed with two senses (sight and sound, for example), memories less than a minute old, or if the matter involving the conclusion is very important to the target',
+						},
+						{
+							level: 5,
+							text:
+								'for hallucinations that can be sensed with all five senses, a major memory change, or if the logic is absolutely clear and coming to the wrong conclusion is virtually impossible',
+						},
+					],
+				},
+			},
+			effect: {
+				short: [],
+				long: `This power is used to alter a character’s perception so that he senses an illusion or fails to see what the Jedi doesn’t want him to see. This power is used to permanently alter a character’s memories so that he remembers things incorrectly or fails to remember something. This power can also be used to alter a character’s conclusions so that he comes to an incorrect conclusion.<br>
+				Before making skill rolls, the character must describe exactly what he wants the effect to be. The power is normally on one target; two or more targets can only be affected if the power is used two or more times.<br>
+				A character believes he is affected by any successful illusions – a character who thinks he is struck by an illusionary object would feel the blow. If he thinks he was injured, pain would be felt, or if he thought he was killed, he would become unconscious. The character does not suffer any true injury.<br>
+				This power can’t be used to affect droids and does not work through recording devices.`,
+			},
 		},
 		{
 			name: 'Translation',
@@ -1217,7 +1495,7 @@ export const powers_sorted = {
 		{
 			name: 'Telekinesis',
 			powers: ['alter'],
-			extra: [data.extra.keptUp],
+			extra: [data.extra.inSight, data.extra.keptUp],
 			difficulty: {
 				alter: {
 					level: [
@@ -1264,7 +1542,7 @@ export const powers_sorted = {
 							text: 'for complex maneuvers',
 						},
 					],
-					modifiers: [data.modifiers.inSight, data.modifiers.proximity],
+					modifiers: [data.modifiers.proximity],
 				},
 			},
 			effect: {
