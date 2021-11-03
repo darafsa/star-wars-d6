@@ -1,8 +1,8 @@
 export const points = {
-	force: 5,
+	force: 4,
 	darkside: 0,
 	character: 84,
-	spent: 41,
+	spent: 84,
 }
 
 export const stats = [
@@ -132,13 +132,13 @@ export const powers = {
 		},
 		sense: {
 			name: 'Sense',
-			dice: 2,
-			pips: 2,
+			dice: 3,
+			pips: 0,
 		},
 		alter: {
 			name: 'Alter',
 			dice: 3,
-			pips: 0,
+			pips: 1,
 		},
 	},
 	skills: [
