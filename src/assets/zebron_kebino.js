@@ -1,5 +1,5 @@
 export const points = {
-	force: 4,
+	force: 2,
 	darkside: 0,
 	character: 84,
 	spent: 84,
