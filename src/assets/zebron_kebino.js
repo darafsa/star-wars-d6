@@ -1,8 +1,8 @@
 export const points = {
-	force: 2,
+	force: 0,
 	darkside: 0,
-	character: 84,
-	spent: 84,
+	character: 97,
+	spent: 94,
 }
 
 export const stats = [
