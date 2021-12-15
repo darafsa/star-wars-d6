@@ -127,8 +127,8 @@ export const powers = {
 	stats: {
 		control: {
 			name: 'Control',
-			dice: 3,
-			pips: 2,
+			dice: 4,
+			pips: 0,
 		},
 		sense: {
 			name: 'Sense',
@@ -138,7 +138,7 @@ export const powers = {
 		alter: {
 			name: 'Alter',
 			dice: 3,
-			pips: 1,
+			pips: 2,
 		},
 	},
 	skills: [
