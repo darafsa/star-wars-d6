@@ -133,7 +133,7 @@ export const powers = {
 		sense: {
 			name: 'Sense',
 			dice: 3,
-			pips: 1,
+			pips: 2,
 		},
 		alter: {
 			name: 'Alter',
