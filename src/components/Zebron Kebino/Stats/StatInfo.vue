@@ -87,7 +87,7 @@ export default {
 			}
 			if (dice > 0) dice -= 1;
 
-			var str = "!roll ";
+			var str = "";
 			if (dice > 0) str += `${dice}d6+`;
 			str += `1d6ie6#PIPS# !${name} (${dice + 1}D+${pips})`;
 
