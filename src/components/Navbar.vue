@@ -1,9 +1,16 @@
 <template>
 	<div class="navbar--container">
 		<div class="nav">
-			<div class="filler right-align">
-				<p>{{ points.force }} Force Points</p>
-				<p>{{ points.darkside }} Darkside Points</p>
+			<div class="filler">
+				<div>
+					<p>{{ powers.stats.control.name }} {{ powers.stats.control.dice }}D+{{ powers.stats.control.pips }}</p>
+					<p>{{ powers.stats.sense.name }} {{ powers.stats.sense.dice }}D+{{ powers.stats.sense.pips }}</p>
+					<p>{{ powers.stats.alter.name }} {{ powers.stats.alter.dice }}D+{{ powers.stats.alter.pips }}</p>
+				</div>
+				<div class="right-align">
+					<p>{{ points.force }} Force Points</p>
+					<p>{{ points.darkside }} Darkside Points</p>
+				</div>
 			</div>
 			<div class="main">
 				<h1>{{ data.name }}</h1>
@@ -14,8 +21,10 @@
 				</ul>
 			</div>
 			<div class="filler">
-				<p>Character Points {{ points.character }}</p>
-				<p>Spent Character Points {{ points.spent }}</p>
+				<div>
+					<p>Character Points {{ points.character }}</p>
+					<p>Spent Character Points {{ points.spent }}</p>
+				</div>
 			</div>
 		</div>
 		<Stats class="content-item" v-show="data.stats" />
@@ -31,6 +40,7 @@ import Background from "./Zebron Kebino/Background";
 import Powers from "./Zebron Kebino/Powers/Powers";
 
 import { points } from "@/assets/zebron_kebino.js";
+import { powers } from "@/assets/zebron_kebino.js";
 
 export default {
 	components: {
@@ -68,6 +78,7 @@ export default {
 		return {
 			data,
 			points,
+			powers,
 			showStats,
 			showPowers,
 			showBackground,
@@ -114,18 +125,26 @@ export default {
 
 		.filler {
 			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-			justify-content: center;
 			width: 30%;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
 
-			p {
-				margin: .2rem;
+			div {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				width: max-content;
+				height: max-content;
+
+				p {
+					margin: 0.2rem;
+				}
 			}
 		}
 
 		.right-align {
-			align-items: flex-end;
+			align-items: flex-end !important;
 		}
 	}
 }
