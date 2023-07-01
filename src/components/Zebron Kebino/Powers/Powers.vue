@@ -1,7 +1,8 @@
 <template>
 	<div class="powers--container">
 		<ul class="list">
-			<li class="list-item" :class="{ hover: skill.type != 'label', label: skill.type == 'label' }" v-for="(skill, index) in powers.skills" :key="index" @click="showSkill(skill)">
+			<input class="list-item" placeholder="Search" :v-bind="data.search">
+			<li class="list-item" :class="{ hover: skill.type != 'label', label: skill.type == 'label' }" v-for="(skill, index) in filterSkills()" :key="index" @click="showSkill(skill)">
 				{{ skill.name }}
 			</li>
 		</ul>
@@ -21,7 +22,8 @@ export default {
 	},
 	setup() {
 		const data = reactive({
-			currentSkill: ""
+			currentSkill: "",
+			search: ""
 		})
 		function getPowers(skill) {
 			var str = "Powers: ";
@@ -35,11 +37,20 @@ export default {
 			if(skill.type != 'label')
 				data.currentSkill = skill;
 		}
+
+		function filterSkills() {
+			if(data.search == "") {
+				return powers.skills
+			} else {
+				return 
+			}
+		}
 		return {
 			data,
 			powers,
 			getPowers,
-			showSkill
+			showSkill,
+			filterSkills
 		};
 	},
 };
@@ -75,6 +86,10 @@ export default {
 		.list-item {
 			width: 100%;
 			padding: 1rem;
+		}
+
+		input {
+			border: 0;
 		}
 
 		.hover {

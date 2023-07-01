@@ -46,7 +46,10 @@
 						v-for="(item, index) in getDifficulty(power).modifiers"
 						:key="index"
 					>
-						{{ item }}
+						<div
+							class="level hover"
+							v-html="getModifier(item)"
+						></div>
 					</li>
 				</ul>
 			</div>
@@ -118,6 +121,10 @@ export default {
 			return `<span title="${levelHover}">${levelTitle}</span>`;
 		}
 
+		function getModifier(item) {
+			return `<span title="${item.hover}">${item.text}</span>`;
+		}
+
 		function hasIncreasedDifficulty(power) {
 			if (getDifficulty(power).increased) return true;
 			return false;
@@ -186,6 +193,7 @@ export default {
 			data,
 			getDifficulty,
 			getDifficultyLevel,
+			getModifier,
 			getDice,
 			copyRoll,
 			getExtra,
@@ -247,7 +255,7 @@ export default {
 					}
 
 					.hover {
-						cursor: pointer;
+						cursor: help;
 					}
 
 					.text {

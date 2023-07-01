@@ -1,5 +1,5 @@
 export const points = {
-	force: 0,
+	force: 1,
 	darkside: 0,
 	character: 97,
 	spent: 97,
@@ -105,8 +105,14 @@ export const stats = [
 
 export const data = {
 	modifiers: {
-		proximity: 'Modified by Proximity',
-		relationship: 'Modified by Relationship',
+		proximity: {
+			text: 'Modified by Proximity',
+			hover: 'Touching +0\nLine of sight (not touching) +2\nNot line of site, at 1-100 meters +5\n101 meters, to 10 kilometers +7\n11 to 1,000 kilometers +10\nSame planet more than 1,000 kilometers +15\nSame star system, different planet +20\nNot in same star system +20'
+		},
+		relationship: {
+			text: 'Modified by Relationship',
+			hover: 'Close relatives (married, siblings, parent and child, etc) +0\nClose friends +2\nFriends +5\nAcquaintances +7\nSlight acquaintances +10\nMet once +12\nNever met, but know each other by reputation +15\nComplete strangers +20\nComplete strangers and not of the same species +30'
+		},
 	},
 	extra: {
 		inSight: 'Target must be in sight of the Jedi',
@@ -132,7 +138,7 @@ export const powers = {
 		},
 		sense: {
 			name: 'Sense',
-			dice: 3,
+			dice: 4,
 			pips: 2,
 		},
 		alter: {
@@ -271,7 +277,7 @@ export const powers = {
 			},
 		},
 		{
-			name: 'Force Push *',
+			name: 'Force Push',
 			powers: ['alter'],
 			source: 'Core Rulebook, page 86',
 			required: ['Concentration', 'Life Detection', 'Telekinesis'],
@@ -389,7 +395,7 @@ export const powers = {
 			},
 		},
 		{
-			name: 'Force Jump * ',
+			name: 'Force Jump',
 			powers: ['control', 'alter'],
 			requires: ['Enhance Attribute', 'Telekinesis'],
 			difficulty: {
@@ -503,7 +509,7 @@ export const powers = {
 			},
 		},
 		{
-			name: 'Remain Conscious *',
+			name: 'Remain Conscious',
 			powers: ['control'],
 			required: ['Control Pain'],
 			difficulty: {
@@ -595,7 +601,7 @@ export const powers = {
 			name: 'Enhance Senses',
 		},
 		{
-			name: 'Merge Senses *',
+			name: 'Merge Senses',
 			powers: ['sense'],
 			timeToUse: data.time[3],
 			required: ['Magnify Senses'],
@@ -716,7 +722,7 @@ export const powers = {
 			},
 		},
 		{
-			name: 'Combat Sense *',
+			name: 'Combat Sense',
 			powers: ['sense'],
 			required: ['Danger Sense', 'Life Detection'],
 			difficulty: {
@@ -749,7 +755,7 @@ export const powers = {
 			name: 'Communication',
 		},
 		{
-			name: 'Affect Mind *',
+			name: 'Affect Mind',
 			powers: ['control', 'sense', 'alter'],
 			difficulty: {
 				control: {
