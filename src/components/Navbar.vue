@@ -9,6 +9,11 @@
 				</div>
 				<div class="right-align">
 					<p>{{ points.force }} Force Points</p>
+					<p>
+						<button class="number-button" @click="force_temp++">+</button>
+						<button class="number-button" @click="() => { if (force_temp > 0) force_temp--; }">-</button>
+						{{ force_temp }} Temporary Force Points
+					</p>
 					<p>{{ points.darkside }} Darkside Points</p>
 				</div>
 			</div>
@@ -34,7 +39,7 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import Stats from "./Zebron Kebino/Stats/Stats";
 import Background from "./Zebron Kebino/Background";
 import Powers from "./Zebron Kebino/Powers/Powers";
@@ -54,6 +59,8 @@ export default {
 			stats: true,
 			background: false,
 		});
+
+		const force_temp = ref(points.force_temp);
 
 		function showStats() {
 			data.stats = true;
@@ -82,6 +89,7 @@ export default {
 			showStats,
 			showPowers,
 			showBackground,
+			force_temp
 		};
 	},
 };
@@ -145,6 +153,14 @@ export default {
 
 		.right-align {
 			align-items: flex-end !important;
+		}
+
+		.number-button {
+			width: 1.3rem;
+			height: 1.3rem;
+			border: 0;
+			border-radius: 0;
+			margin: 0 0.1rem;
 		}
 	}
 }
